@@ -1,0 +1,18 @@
+<html>
+  <body>
+    <p>Register DID with the Very Trustworthy Trust Anchor!</p>
+    <form action="{% url 'trust_anchor:index' %}" method="post">
+      {% csrf_token %}
+      <p><label for="did">DID</label><br/>
+        <input type="text" name="did" id="did"/></p>
+      
+      <p><label for="did">VerKey</label><br/>
+        <input type="text" name="verkey" id="verkey"/></p>
+      
+      <p><label for="captcha">CAPTCHA</label><br/>
+        <input type="text" name="captcha" id="captcha"/></p>      
+      
+      <input type="submit" value="Register" />
+    </form>
+  </body>
+</html>
