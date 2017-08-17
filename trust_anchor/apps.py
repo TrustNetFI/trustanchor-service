@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class RegisterDidConfig(AppConfig):
-    name = 'register_did'
+class TrustAnchor(AppConfig):
+    name = 'trust_anchor'

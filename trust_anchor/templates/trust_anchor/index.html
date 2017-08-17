@@ -1,18 +1,74 @@
-<html>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="{% static 'trust_anchor/css/bootstrap.min.css' %}" rel="stylesheet">
+  </head>
   <body>
-    <p>Register DID with the Very Trustworthy Trust Anchor!</p>
+    <div class="container">
+      <h1>Register DID with the Very Trustworthy Trust Anchor!</h1>
+
+{% if reg_error %}
+    <div class="alert alert-danger" role="alert">{{ reg_error }}</div>      
+{% endif %}
+
+{% if reg_result %}
+    <div class="alert alert-primary" role="alert">
+      <h4 class="alert-heading">DID registered successfully!</h4>
+      <dl class="row">
+        <dt class="col-sm-3">DID</dt>
+        <dd class="col-sm-9">{{ reg_result.data.dest }}</dd>
+
+        <dt class="col-sm-3">Verification key</dt>
+        <dd class="col-sm-9">{{ reg_result.data.verkey }}</dd>
+      </dl>
+    </div>
+
+    <p>You can register another one below</p>
+    <hr />
+{% endif %}
+    
     <form action="{% url 'trust_anchor:index' %}" method="post">
       {% csrf_token %}
-      <p><label for="did">DID</label><br/>
-        <input type="text" name="did" id="did"/></p>
+      <div class="form-group">
+        <label for="did">DID</label>
+        <input type="text" class="form-control {% if error.did %}is-invalid{% endif %}" name="did" id="did" value="{{ did }}" required/>
+{% if error.did %}
+        <div class="invalid-feedback">{{ error.did }}</div>
+{% endif %}
+        </div>
       
-      <p><label for="did">VerKey</label><br/>
-        <input type="text" name="verkey" id="verkey"/></p>
+      <div class="form-group">
+        <label for="did">Verification key</label>
+        <input type="text" class="form-control {% if error.verkey %}is-invalid{% endif %}" name="verkey" id="verkey" value="{{ verkey }}" required/>
+{% if error.verkey %}
+        <div class="invalid-feedback">{{ error.verkey }}</div>
+{% endif %}
+      </div>
       
-      <p><label for="captcha">CAPTCHA</label><br/>
-        <input type="text" name="captcha" id="captcha"/></p>      
+      <div class="form-group">
+        <label for="captcha">CAPTCHA</label>
+        <input type="text" class="form-control {% if error.captcha %}is-invalid{% endif %}" name="captcha" id="captcha" value="{{ captcha }}" required/>
+        <small id="captchaHelp" class="form-text text-muted">Please type captcha in upper case, as a simple test of human intelligence :-)</small>
+{% if error.captcha %}
+        <div class="invalid-feedback">{{ error.captcha }}</div>
+{% endif %}
+      </div>
       
-      <input type="submit" value="Register" />
+      <input type="submit" class="btn btn-primary" value="Register" />
     </form>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <!-- <script src="{% static 'trust_anchor/js/jquery.min.js' %}"></script> -->
+    <!-- <script src="{% static 'trust_anchor/js/popper.min.js' %}"></script> -->
+    <!-- <script src="{% static 'trust_anchor/js/bootstrap.min.js' %}"></script> -->
   </body>
 </html>
